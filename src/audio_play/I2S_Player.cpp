@@ -180,6 +180,14 @@ int I2S_Player::setSampleRate(int _sampleRate) {
     case (int)1e6/12:
         clock = {NRF_I2S_MCK_32MDIV3, NRF_I2S_RATIO_128X};
         break;
+    // case (int)1e6/10: // 100000 Hz
+    //     // 32MHz / 3 / 96 = 111.1kHz (closest to 100kHz, +11.1% faster)
+    //     clock = {NRF_I2S_MCK_32MDIV3, NRF_I2S_RATIO_96X};
+    //     break;
+    // case (int)1e6/5: // 200000 Hz
+    //     // 32MHz / 3 / 96 = 111.1kHz (closest to 100kHz, +11.1% faster)
+    //     clock = {NRF_I2S_MCK_32MDIV5, NRF_I2S_RATIO_32X};
+    //     break;
     default:
         Serial.print("Error: Unsupported I2S sampling rate: ");
         Serial.println(_sampleRate);
