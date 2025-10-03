@@ -64,8 +64,8 @@ private:
 
     bool use_eq = false;
 
-    int sample_rate = 44100;
-    clock_ratio clock = {NRF_I2S_MCK_32MDIV23, NRF_I2S_RATIO_32X};
+    int sample_rate = 50000;
+    clock_ratio clock = {NRF_I2S_MCK_32MDIV10, NRF_I2S_RATIO_64X};
 };
 
 extern I2S_Player i2s_player;
