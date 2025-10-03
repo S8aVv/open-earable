@@ -60,7 +60,7 @@ private:
     bool _running = false;
     bool _available = false;
 
-    int _sampleRate = 44100;
+    int _sampleRate = 50000;
 
     //bool check_completed();
 };
