@@ -36,7 +36,7 @@ const String device_name = "OpenEarable";
 const String firmware_version = "1.4.0";
 const String hardware_version = "1.4.0";
 
-bool _data_logger_flag = false;
+bool _data_logger_flag = true;
 
 void data_callback(int id, unsigned int timestamp, uint8_t * data, int size);
 void config_callback(SensorConfigurationPacket *config);
