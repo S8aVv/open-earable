@@ -174,6 +174,9 @@ int I2S_Player::setSampleRate(int _sampleRate) {
         //clock = {NRF_I2S_MCK_32MDIV10, NRF_I2S_RATIO_64X};
         clock = {NRF_I2S_MCK_32MDIV4, NRF_I2S_RATIO_128X};
         break;*/
+    case (int)1e6/16:
+        clock = {NRF_I2S_MCK_32MDIV4, NRF_I2S_RATIO_128X};
+        break;
     case (int)1e6/15:
         clock = {NRF_I2S_MCK_32MDIV5, NRF_I2S_RATIO_96X};
         break;
