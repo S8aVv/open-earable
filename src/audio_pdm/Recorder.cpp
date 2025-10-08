@@ -146,10 +146,11 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
     // set gain for each channel
     pdm_mic.setGain(gain_l, gain_r);
 
-    if (((config->latency >> 16) & 0xFF) == 1) {
-        // ocllusion test
-        recorder.setTarget(new BLEStream());
-    } else {
+    // 强制使用SD卡录音模式，禁用BLE流模式
+    // if (((config->latency >> 16) & 0xFF) == 1) {
+    //     // ocllusion test
+    //     recorder.setTarget(new BLEStream());
+    // } else {
         // find the next available file name for the recording
         const String recording_dir = "Recordings";
 
@@ -179,7 +180,7 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
 
         // set WaveRecorder
         recorder.setTarget(new WavRecorder(file_name));
-    }
+    // }
 
     // Start pdm mic
     recorder.record();
