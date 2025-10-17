@@ -94,10 +94,11 @@ bool WavPlayer::check_format() {
         return false;
     }
 
-    if (info.sampleRate != PLAYER_FORMAT.sampleRate) {
-        Serial.print("Error: The Audio Player requires the sample rate to be ");
-        Serial.print(PLAYER_FORMAT.sampleRate);
-        Serial.println("Hz!");
+    // 支持多种采样率：44.1kHz, 48kHz, 62.5kHz
+    if (info.sampleRate != 44100 && info.sampleRate != 48000 && info.sampleRate != 62500) {
+        Serial.print("Error: Unsupported sample rate: ");
+        Serial.print(info.sampleRate);
+        Serial.println("Hz! Supported rates: 44100, 48000, 62500");
         return false;
     }
 
