@@ -162,6 +162,9 @@ int I2S_Player::setSampleRate(int _sampleRate) {
         clock = {NRF_I2S_MCK_32MDIV23, NRF_I2S_RATIO_32X};
         //clock = {NRF_I2S_MCK_32MDIV15, NRF_I2S_RATIO_48X};
         break;
+    case 48000:
+        clock = {NRF_I2S_MCK_32MDIV21, NRF_I2S_RATIO_32X};
+        break;
     case 50000:
         clock = {NRF_I2S_MCK_32MDIV10, NRF_I2S_RATIO_64X};
         break;
@@ -170,10 +173,11 @@ int I2S_Player::setSampleRate(int _sampleRate) {
         clock = {NRF_I2S_MCK_32MDIV6, NRF_I2S_RATIO_96X};
         break;
     // not working for some reason
-    /*case 62500:
+    case 62500:
         //clock = {NRF_I2S_MCK_32MDIV10, NRF_I2S_RATIO_64X};
+        //clock = {NRF_I2S_MCK_32MDIV2, NRF_I2S_RATIO_256X};
         clock = {NRF_I2S_MCK_32MDIV4, NRF_I2S_RATIO_128X};
-        break;*/
+        break;
     case (int)1e6/15:
         clock = {NRF_I2S_MCK_32MDIV5, NRF_I2S_RATIO_96X};
         break;
