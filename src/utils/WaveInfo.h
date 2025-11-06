@@ -12,7 +12,7 @@ struct WaveInfo {
     uint32_t subchunk1Size = 16;
     uint16_t formatTag = PCM;
     uint16_t numChannels = 1;
-    uint32_t sampleRate = 44100;
+    uint32_t sampleRate = 62500;
     uint32_t byteRate = sampleRate * numChannels * bitsPerSample/8;
     uint16_t blockAlign = numChannels * ((bitsPerSample + 7) / 8);
     uint16_t bitsPerSample = 16;
