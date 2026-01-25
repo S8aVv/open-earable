@@ -78,6 +78,7 @@ unsigned int SDManager::write_block(ExFatFile *file, uint8_t *block, int size) {
 }
 
 unsigned int SDManager::read_block_at(ExFatFile *file, int offset, uint8_t *block, int size) {
+    if (!_available) return 0;
     _lastFile = file;
     file->seekSet(offset);
     return file->read(block, size);
