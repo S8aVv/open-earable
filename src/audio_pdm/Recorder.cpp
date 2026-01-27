@@ -123,6 +123,10 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
     // Check for PDM MIC ID
     if (config->sensorId != PDM_MIC) return;
 
+
+    // 记录录音开始的时间戳（与传感器数据对齐）
+    unsigned long recording_start_timestamp = millis();
+
     // Get sample rate
     int sample_rate = int(config->sampleRate);
 
@@ -175,7 +179,7 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
         }
 
         // file name of the new recording
-        String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_" + String(millis()) + ".wav";
+        String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(recording_start_timestamp) + ".wav";
 
         // set WaveRecorder
         recorder.setTarget(new WavRecorder(file_name));
