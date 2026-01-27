@@ -1,6 +1,8 @@
 #include "WavRecorder.h"
 
 WavRecorder::WavRecorder(String name) : _name(name) {
+    Serial.print("DEBUG WavRecorder: Constructor called with name: ");
+    Serial.println(name);
     _wavWriter = new WAVWriter();
 }
 
