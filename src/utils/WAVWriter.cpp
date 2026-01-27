@@ -27,8 +27,12 @@ void WAVWriter::setChannels(int channels) {
 }
 
 void WAVWriter::setName(String name) {
+    Serial.print("DEBUG WAVWriter: setName called with: ");
+    Serial.println(name);
     sd_manager.closeFile(&file);
     _name = std::move(name);
+    Serial.print("DEBUG WAVWriter: _name is now: ");
+    Serial.println(_name);
 }
 
 bool WAVWriter::writeHeader() {
