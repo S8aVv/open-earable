@@ -181,6 +181,17 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
         // file name of the new recording
         String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(recording_start_timestamp) + ".wav";
 
+        // 调试输出
+        Serial.print("DEBUG: Recording file name: ");
+        Serial.println(file_name);
+        Serial.print("DEBUG: Start timestamp: ");
+        Serial.println(recording_start_timestamp);
+        Serial.print("DEBUG: File number: ");
+        Serial.println(n);
+        Serial.print("DEBUG: Current millis: ");
+        Serial.println(millis());
+
+
         // set WaveRecorder
         recorder.setTarget(new WavRecorder(file_name));
     }
