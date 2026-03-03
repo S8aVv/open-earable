@@ -16,6 +16,11 @@
 
 void setup()
 {
+    Serial.begin(0);
+    delay(200);
+    Serial.println("=== App.ino setup START ===");
+    Serial.flush();
+
 #if DEBUG
   Serial.begin(115200);
   open_earable.debug(Serial);
