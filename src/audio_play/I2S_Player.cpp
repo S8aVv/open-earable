@@ -93,7 +93,15 @@ void I2S_Player::end() {
 void I2S_Player::start() {
     if (!_available || _running) return;
     nrf_i2s_tx_buffer_set(NRF_I2S, (uint32_t const *)stream->buffer.getReadPointer());
-    if (use_eq) eq->update((int16_t *)stream->buffer.getReadPointer(), stream->buffer.getBlockSize() / sizeof(int16_t));
+    if (use_eq) {
+        static bool once = true;
+        if (once) {
+            Serial.println("I2S_Player start (EQ on)");
+            Serial.flush();
+            once = false;
+        }
+        eq->update((int16_t *)stream->buffer.getReadPointer(), stream->buffer.getBlockSize() / sizeof(int16_t));
+    }
 
     nrf_i2s_task_trigger(NRF_I2S, NRF_I2S_TASK_START);
     _running = true;
