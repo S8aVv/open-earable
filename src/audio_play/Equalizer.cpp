@@ -79,6 +79,7 @@ void Equalizer::update(int16_t * data, int length) {
             Serial.println(-1 * (1 << 15));
             Serial.print("constrain upper = ");
             Serial.println((1 << 15) - 1);
+            Serial.flush();
             first_print = false;
         }
 
@@ -90,6 +91,7 @@ void Equalizer::update(int16_t * data, int length) {
             Serial.print(v_max);
             Serial.print(" , v_min = ");
             Serial.println(v_min);
+            Serial.flush();
         }
 
         data[n] = constrain(v, -1 * (1 << 15), (1 << 15) - 1);
