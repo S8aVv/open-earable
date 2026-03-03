@@ -47,6 +47,8 @@ public:
 
     void begin() {
         Serial.begin(0);
+        Serial.println("OpenEarable begin");
+        Serial.flush();
 
         _interface = new SensorManager_Earable();
         _battery = new Battery_Service();
