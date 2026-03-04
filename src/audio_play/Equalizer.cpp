@@ -96,3 +96,4 @@ void Equalizer::update(int16_t * data, int length) {
 
         data[n] = constrain(v, -1 * (1 << 15), (1 << 15) - 1);
     }
+}
