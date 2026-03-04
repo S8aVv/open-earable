@@ -128,6 +128,8 @@ void WavPlayer::preload_buffer() {
 
     Serial.print("preload blocks: ");
     Serial.println(cont);
+    Serial.println(">>> BUILD WITH DEBUG (WavPlayer) <<<");
+    Serial.flush();
 }
 
 unsigned int WavPlayer::sd_to_buffer(int multi) {
