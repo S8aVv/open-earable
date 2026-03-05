@@ -46,7 +46,7 @@ void Equalizer::update(int16_t * data, int length) {
 
         //if (abs(0.095 * y[EQ_ORDER]) > (1<<15)-1) Serial.println("Limit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-        data[n] = constrain(0.095 * 0.8 * y[EQ_ORDER],-1*(1<<15),(1<<15)-1);
+        data[n] = constrain(0.095 * y[EQ_ORDER],-1*(1<<15),(1<<15)-1);
     }
 }
 
