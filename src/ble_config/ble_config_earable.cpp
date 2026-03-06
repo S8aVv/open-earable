@@ -12,6 +12,10 @@ const char * buttonStateUuid = "29c10f38-4773-11ee-be56-0242ac120002";
 const char * ledServiceUuid = "81040a2e-4819-11ee-be56-0242ac120002";
 const char * ledSetStatusUuid = "81040e7a-4819-11ee-be56-0242ac120002";
 
+// Time sync (UTC milliseconds since Unix epoch)
+const char * timeSyncServiceUuid = "a1b2c3d4-1234-5678-abcd-000000000001";
+const char * timeValueUuid = "a1b2c3d4-1234-5678-abcd-000000000002";
+
 
 
 
