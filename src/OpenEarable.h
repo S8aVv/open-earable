@@ -30,6 +30,8 @@
 
 #include <sd_logger/SD_Logger.h>
 
+#include <time_sync/TimeSync_Service.h>
+
 #include <utility>
 
 const String device_name = "OpenEarable";
@@ -86,6 +88,7 @@ public:
         play_service.begin();
         button_service.begin();
         led_service.begin();
+        time_sync_service.begin();
 
         task_manager.begin();
 
