@@ -1,5 +1,6 @@
 #include "SD_Logger.h"
 
+#include <cstdio>
 #include <utility>
 
 ExFatFile SD_Logger::_file;
@@ -26,7 +27,7 @@ void SD_Logger::set_name(String name) {
     _opened = false;
 }
 
-void SD_Logger::data_callback(int id, unsigned int timestamp, const String & data_string) {
+void SD_Logger::data_callback(int id, uint64_t timestamp, const String & data_string) {
     if (id == -1) {
         dump_to_sd();
         _file.close();
@@ -34,8 +35,10 @@ void SD_Logger::data_callback(int id, unsigned int timestamp, const String & dat
         return;
     };
 
+    char ts_buf[24];
+    snprintf(ts_buf, sizeof(ts_buf), "%llu", (unsigned long long)timestamp);
     String text = String(id);
-    text += ", " + String(timestamp);
+    text += ", " + String(ts_buf);
     text += ", " + data_string;
     text += "\r\n";
 
