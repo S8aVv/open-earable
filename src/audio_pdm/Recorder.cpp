@@ -2,6 +2,7 @@
 #include "WavRecorder.h"
 #include "BLEStream.h"
 #include "PDM_Mic.h"
+#include "time_sync/TimeSync_Service.h"
 
 uint8_t PDM_BUFFER[pdm_b_size * pdm_b_count] __attribute__((aligned (16)));
 
@@ -125,7 +126,10 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
 
 
     // 记录录音开始的时间戳（与传感器数据对齐）
-    unsigned long recording_start_timestamp = millis();
+    // unsigned long recording_start_timestamp = millis();
+    uint64_t recording_start_timestamp = time_sync_service.synced()
+        ? time_sync_service.utcMillis()
+        : (uint64_t)millis();
 
     // Get sample rate
     int sample_rate = int(config->sampleRate);
@@ -178,8 +182,11 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
             }
         }
 
-        // file name of the new recording
-        String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(recording_start_timestamp) + ".wav";
+        // file name of the new recording (UTC ms when synced, else millis)
+        // String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(recording_start_timestamp) + ".wav";
+        char ts_buf[24];
+        snprintf(ts_buf, sizeof(ts_buf), "%llu", (unsigned long long)recording_start_timestamp);
+        String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(ts_buf) + ".wav";
 
         // 调试输出
         // Serial.print("DEBUG: Recording file name: ");
