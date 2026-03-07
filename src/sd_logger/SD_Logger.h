@@ -3,6 +3,7 @@
 
 #include "utils/SDManager.h"
 #include "EdgeML_Custom.h"
+#include <stdint.h>
 
 // #define LOGGER_BUFFER_SIZE 1024
 #define LOGGER_BUFFER_SIZE 2048
@@ -14,7 +15,7 @@ public:
 
     static void set_name(String name);
 
-    static void data_callback(int, unsigned int, const String&);
+    static void data_callback(int, uint64_t, const String&);
 private:
     static ExFatFile _file;
     static bool _opened;
