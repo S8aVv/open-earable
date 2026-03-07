@@ -3,6 +3,7 @@
 #include "BLEStream.h"
 #include "PDM_Mic.h"
 #include "time_sync/TimeSync_Service.h"
+#include "utils/U64ToStr.h"
 
 uint8_t PDM_BUFFER[pdm_b_size * pdm_b_count] __attribute__((aligned (16)));
 
@@ -185,7 +186,7 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
         // file name of the new recording (UTC ms when synced, else millis)
         // String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(recording_start_timestamp) + ".wav";
         char ts_buf[24];
-        snprintf(ts_buf, sizeof(ts_buf), "%llu", (unsigned long long)recording_start_timestamp);
+        u64_to_str(recording_start_timestamp, ts_buf, sizeof(ts_buf));
         String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(ts_buf) + ".wav";
 
         // 调试输出
