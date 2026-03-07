@@ -135,7 +135,11 @@ private:
     static void data_callback(int id, unsigned int timestamp, uint8_t * data, int size) {
         if (_data_logger_flag) {
             String data_string = edge_ml_generic.parse_to_string(id, data);
-            SD_Logger::data_callback(id, timestamp, data_string);
+            // Convert to UTC ms when synced; otherwise keep millis
+            uint64_t ts = time_sync_service.synced()
+                ? (uint64_t)timestamp + (int64_t)time_sync_service.offsetMillis()
+                : (uint64_t)timestamp;
+            SD_Logger::data_callback(id, ts, data_string);
         }
     }
 
