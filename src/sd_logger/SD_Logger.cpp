@@ -1,6 +1,6 @@
 #include "SD_Logger.h"
+#include "utils/U64ToStr.h"
 
-#include <cstdio>
 #include <utility>
 
 ExFatFile SD_Logger::_file;
@@ -36,7 +36,7 @@ void SD_Logger::data_callback(int id, uint64_t timestamp, const String & data_st
     };
 
     char ts_buf[24];
-    snprintf(ts_buf, sizeof(ts_buf), "%llu", (unsigned long long)timestamp);
+    u64_to_str(timestamp, ts_buf, sizeof(ts_buf));
     String text = String(id);
     text += ", " + String(ts_buf);
     text += ", " + data_string;
