@@ -126,11 +126,13 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
     if (config->sensorId != PDM_MIC) return;
 
 
-    // 记录录音开始的时间戳（与传感器数据对齐）
-    // unsigned long recording_start_timestamp = millis();
-    uint64_t recording_start_timestamp = time_sync_service.synced()
+    // 记录录音开始的时间：
+    // - recording_start_millis: 设备自开机以来的毫秒数（与传感器 timestamp 同一时间轴）
+    // - recording_start_utc   : 录音开始时的 UTC 毫秒（若已同步；否则为 0）
+    unsigned long recording_start_millis = millis();
+    uint64_t recording_start_utc = time_sync_service.synced()
         ? time_sync_service.utcMillis()
-        : (uint64_t)millis();
+        : 0;
 
     // Get sample rate
     int sample_rate = int(config->sampleRate);
@@ -183,11 +185,18 @@ void Recorder::config_callback(SensorConfigurationPacket *config) {
             }
         }
 
-        // file name of the new recording (UTC ms when synced, else millis)
-        // String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(recording_start_timestamp) + ".wav";
-        char ts_buf[24];
-        u64_to_str(recording_start_timestamp, ts_buf, sizeof(ts_buf));
-        String file_name = "/" + recording_dir + "/Recording_" + String(n) + "_start_" + String(ts_buf) + ".wav";
+        // file name of the new recording:
+        // Recording_<n>_<UTC_ms>_<millis>.wav
+        // 其中两个数字分别为：
+        //  - 第一个：录音开始时的 UTC 毫秒（若未同步则为 0）
+        //  - 第二个：录音开始时的设备 millis() 值
+        char utc_buf[24];
+        char ms_buf[24];
+        u64_to_str(recording_start_utc, utc_buf, sizeof(utc_buf));
+        u64_to_str((uint64_t)recording_start_millis, ms_buf, sizeof(ms_buf));
+        String file_name = "/" + recording_dir + "/Recording_" + String(n)
+                           + "_" + String(utc_buf)
+                           + "_" + String(ms_buf) + ".wav";
 
         // 调试输出
         // Serial.print("DEBUG: Recording file name: ");
