@@ -4,6 +4,13 @@
 
 void i2s_irq_handler(void);
 
+namespace {
+// Fallback buffer used when audio stream temporarily underruns.
+// 4096 bytes / WORD_SIZE(4) = 1024 words.
+uint32_t I2S_SILENCE_BLOCK[audio_b_size / WORD_SIZE] = {0};
+unsigned long g_i2s_underrun_count = 0;
+}
+
 I2S_Player::I2S_Player(bool use_eq) {
     this->use_eq = use_eq;
 
@@ -92,6 +99,7 @@ void I2S_Player::end() {
 
 void I2S_Player::start() {
     if (!_available || _running) return;
+    g_i2s_underrun_count = 0;
     nrf_i2s_tx_buffer_set(NRF_I2S, (uint32_t const *)stream->buffer.getReadPointer());
     if (use_eq) {
         static bool once = true;
@@ -128,6 +136,15 @@ void I2S_Player::i2s_interrupt() {
         if (stream->remaining() > 0) {
             nrf_i2s_tx_buffer_set(NRF_I2S, (uint32_t const *)stream->buffer.getReadPointer());
             if (use_eq) eq->update((int16_t *)stream->buffer.getReadPointer(), stream->buffer.getBlockSize() / sizeof(int16_t));
+        } else if (stream_available) {
+            // Temporary starvation / non-contiguous state:
+            // output one block of silence to avoid random clicks/pops.
+            nrf_i2s_tx_buffer_set(NRF_I2S, (uint32_t const *)I2S_SILENCE_BLOCK);
+            g_i2s_underrun_count++;
+            if (g_i2s_underrun_count == 1 || g_i2s_underrun_count % 20 == 0) {
+                Serial.print("I2S underrun (silence injected), count = ");
+                Serial.println(g_i2s_underrun_count);
+            }
         } else if (!stream_available) {
             stop();
             audio_player.completed();
